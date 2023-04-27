@@ -1,10 +1,24 @@
 import { Grid, Typography } from "@mui/material";
+import Search from "../../components/Search/Search";
+import { object, string } from "yup";
+import { FormikProps, withFormik } from "formik";
 
 import "./styles.scss";
 
-interface IProps {}
+interface IProps {
+}
 
-export const Home = ({}: IProps) => {
+interface IFormValues {
+  username: string;
+}
+
+const HomePage = ({
+  values,
+  handleChange,
+  handleSubmit,
+  errors,
+  touched,
+}: IProps & FormikProps<IFormValues>) => {
   return (
     <>
       <Grid
@@ -18,7 +32,33 @@ export const Home = ({}: IProps) => {
         <Typography variant="body1" align="center">
           Please enter GitHub username
         </Typography>
+
+        <Search
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          label="Github username"
+          value={values["username"]}
+          name="username"
+          error={!!touched["username"] && !!errors["username"]}
+          helperText={!!touched["username"] ? errors["username"] : ""}
+        />
       </Grid>
     </>
   );
 };
+
+const validationSchema = object().shape({
+  username: string().required("Username is required"),
+});
+
+const formikEnhance = withFormik<IProps, IFormValues>({
+  validationSchema,
+  enableReinitialize: true,
+  mapPropsToValues: () => {
+    return { username: "" }; // need for initialValues inside withFromik
+  },
+  handleSubmit: ({  }: IFormValues, formikBag) => {
+  },
+});
+
+export const Home = formikEnhance(HomePage);
