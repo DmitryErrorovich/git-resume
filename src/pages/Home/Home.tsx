@@ -2,10 +2,12 @@ import { Grid, Typography } from "@mui/material";
 import Search from "../../components/Search/Search";
 import { object, string } from "yup";
 import { FormikProps, withFormik } from "formik";
+import { NavigateFunction } from "react-router-dom";
 
 import "./styles.scss";
 
 interface IProps {
+  navigate: NavigateFunction;
 }
 
 interface IFormValues {
@@ -57,7 +59,8 @@ const formikEnhance = withFormik<IProps, IFormValues>({
   mapPropsToValues: () => {
     return { username: "" }; // need for initialValues inside withFromik
   },
-  handleSubmit: ({  }: IFormValues, formikBag) => {
+  handleSubmit: ({ username }: IFormValues, formikBag) => {
+    formikBag.props.navigate(`/${username}`);
   },
 });
 
