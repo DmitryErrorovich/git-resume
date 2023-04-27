@@ -15,10 +15,16 @@ export interface IInitialState {
 export const userReducer = createSlice({
   name: "cells",
   initialState: {
-    user: {},
+    user: null,
     loading: "idle",
   } as IInitialState,
-  reducers: {}, // TODO: clean
+  reducers: {
+    cleanStore: (state) => ({
+      ...state,
+      user: null,
+      loading: 'idle',
+    })
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserAction.fulfilled, (state: any, action: any) => {
       return {
@@ -57,5 +63,7 @@ export const userReducer = createSlice({
     }));
   },
 });
+
+export const { cleanStore } = userReducer.actions;
 
 export default userReducer.reducer;

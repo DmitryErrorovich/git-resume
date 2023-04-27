@@ -4,4 +4,20 @@
     font-weight: bold;
     text-transform: uppercase;
   }
+
+  &_repo {
+    display: flex;
+    flex-direction: column;
+    
+    &_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      @media (max-width:480px) {
+        flex-direction: column;
+      }
+    }
+  }
 }
